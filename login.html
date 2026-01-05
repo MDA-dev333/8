@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgroSmart - Login / Cadastro</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f9f0;
+            color: #2d5016;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Cabeçalho igual ao index */
+        header {
+            background: linear-gradient(135deg, #2d5016 0%, #4a7c2a 100%);
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 15px rgba(45, 80, 22, 0.2);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+
+        .logo i {
+            color: #a3d977;
+        }
+
+        .back-btn {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: color 0.3s;
+        }
+
+        .back-btn:hover {
+            color: #a3d977;
+        }
+
+        /* Container principal */
+        .login-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .login-box {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(45, 80, 22, 0.1);
+            width: 100%;
+            max-width: 900px;
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            min-height: 500px;
+        }
+
+        /* Lado esquerdo - Ilustração/Info */
+        .login-info {
+            background: linear-gradient(135deg, #2d5016 0%, #4a7c2a 100%);
+            color: white;
+            padding: 3rem 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .login-info h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .login-info ul {
+            list-style: none;
+            margin-top: 2rem;
+        }
+
+        .login-info li {
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .login-info i {
+            color: #a3d977;
+        }
+
+        /* Lado direito - Formulário */
+        .login-form {
+            padding: 3rem 2rem;
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .form-header h2 {
+            color: #2d5016;
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-toggle {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid #e8f4dd;
+        }
+
+        .toggle-btn {
+            background: none;
+            border: none;
+            padding: 0.8rem 2rem;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #7a9c5e;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s;
+        }
+
+        .toggle-btn.active {
+            color: #2d5016;
+        }
+
+        .toggle-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: #4a7c2a;
+            border-radius: 3px 3px 0 0;
+        }
+
+        .form-content {
+            display: none;
+        }
+
+        .form-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #2d5016;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.9rem;
+            border: 2px solid #e8f4dd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #4a7c2a;
+            box-shadow: 0 0 0 3px rgba(74, 124, 42, 0.1);
+        }
+
+        .btn {
+            background-color: #ffb400;
+            color: #2d5016;
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            font-size: 1rem;
+            margin-top: 1rem;
+        }
+
+        .btn:hover {
+            background-color: #e6a200;
+            transform: translateY(-2px);
+        }
+
+        .divider {
+            text-align: center;
+            margin: 1.5rem 0;
+            position: relative;
+            color: #7a9c5e;
+        }
+
+        .divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background-color: #e8f4dd;
+            z-index: 1;
+        }
+
+        .divider span {
+            background: white;
+            padding: 0 1rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .social-login {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-btn {
+            flex: 1;
+            padding: 0.8rem;
+            border: 2px solid #e8f4dd;
+            border-radius: 8px;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-weight: 600;
+            color: #2d5016;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .social-btn:hover {
+            background-color: #f5f9f0;
+            transform: translateY(-2px);
+        }
+
+        /* Footer */
+        footer {
+            background-color: #2d5016;
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: auto;
+        }
+
+        /* Responsivo */
+        @media (max-width: 768px) {
+            .login-box {
+                grid-template-columns: 1fr;
+                max-width: 400px;
+            }
+            
+            .login-info {
+                display: none;
+            }
+            
+            .toggle-btn {
+                padding: 0.6rem 1.5rem;
+                font-size: 0.9rem;
+            }
+            
+            header {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Cabeçalho -->
+    <header>
+        <div class="logo">
+            <i class="fas fa-seedling"></i>
+            <span>AgroSmart</span>
+        </div>
+        <a href="index.html" class="back-btn">
+            <i class="fas fa-arrow-left"></i>
+            Voltar para Home
+        </a>
+    </header>
+
+    <!-- Container Principal -->
+    <div class="login-container">
+        <div class="login-box">
+            <!-- Lado Esquerdo - Informações -->
+            <div class="login-info">
+                <h2>Junte-se à Comunidade AgroSmart</h2>
+                <p>Gerencie sua propriedade com ferramentas inteligentes projetadas especificamente para agricultores brasileiros.</p>
+                
+                <ul>
+                    <li><i class="fas fa-check-circle"></i> Calculadoras agrícolas precisas</li>
+                    <li><i class="fas fa-check-circle"></i> Histórico completo de safras</li>
+                    <li><i class="fas fa-check-circle"></i> Gestão financeira simplificada</li>
+                    <li><i class="fas fa-check-circle"></i> Relatórios para financiamento</li>
+                    <li><i class="fas fa-check-circle"></i> Suporte especializado</li>
+                </ul>
+                
+                <p style="margin-top: 2rem; font-size: 0.9rem; opacity: 0.9;">
+                    <i class="fas fa-shield-alt"></i> Seus dados estão seguros conosco
+                </p>
+            </div>
+
+            <!-- Lado Direito - Formulário -->
+            <div class="login-form">
+                <div class="form-header">
+                    <h2>Bem-vindo de volta!</h2>
+                    <p>Acesse sua conta ou crie uma nova</p>
+                </div>
+
+                <div class="form-toggle">
+                    <button class="toggle-btn active" data-form="login">Entrar</button>
+                    <button class="toggle-btn" data-form="register">Cadastrar</button>
+                </div>
+
+                <!-- Formulário de Login -->
+                <div id="login-form" class="form-content active">
+                    <form id="loginForm">
+                        <div class="form-group">
+                            <label for="email">E-mail</label>
+                            <input type="email" id="email" placeholder="seu@email.com" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="password">Senha</label>
+                            <input type="password" id="password" placeholder="Sua senha" required>
+                        </div>
+                        
+                        <div style="text-align: right; margin-bottom: 1rem;">
+                            <a href="#forgot" style="color: #4a7c2a; text-decoration: none; font-size: 0.9rem;">
+                                Esqueceu a senha?
+                            </a>
+                        </div>
+                        
+                        <button type="submit" class="btn">Entrar na Conta</button>
+                    </form>
+
+                    <div class="divider">
+                        <span>Ou entre com</span>
+                    </div>
+
+                    <div class="social-login">
+                        <button class="social-btn">
+                            <i class="fab fa-google" style="color: #DB4437;"></i>
+                            Google
+                        </button>
+                        <button class="social-btn">
+                            <i class="fab fa-facebook" style="color: #1877F2;"></i>
+                            Facebook
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Formulário de Cadastro -->
+                <div id="register-form" class="form-content">
+                    <form id="registerForm">
+                        <div class="form-group">
+                            <label for="name">Nome Completo</label>
+                            <input type="text" id="name" placeholder="Seu nome" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="register-email">E-mail</label>
+                            <input type="email" id="register-email" placeholder="seu@email.com" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="register-password">Senha</label>
+                            <input type="password" id="register-password" placeholder="Mínimo 6 caracteres" required minlength="6">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="confirm-password">Confirmar Senha</label>
+                            <input type="password" id="confirm-password" placeholder="Digite novamente" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="farm-type">Tipo de Propriedade</label>
+                            <select id="farm-type" style="width: 100%; padding: 0.9rem; border: 2px solid #e8f4dd; border-radius: 8px;">
+                                <option value="small">Pequena Propriedade</option>
+                                <option value="medium">Média Propriedade</option>
+                                <option value="large">Grande Propriedade</option>
+                                <option value="manager">Gerente/Administrador</option>
+                            </select>
+                        </div>
+                        
+                        <div style="margin: 1.5rem 0; font-size: 0.9rem;">
+                            <label style="display: flex; align-items: flex-start; gap: 10px; cursor: pointer;">
+                                <input type="checkbox" required style="margin-top: 3px;">
+                                <span>Eu concordo com os <a href="#terms" style="color: #4a7c2a;">Termos de Uso</a> e <a href="#privacy" style="color: #4a7c2a;">Política de Privacidade</a></span>
+                            </label>
+                        </div>
+                        
+                        <button type="submit" class="btn">Criar Conta Gratuita</button>
+                    </form>
+                    
+                    <p style="text-align: center; margin-top: 1.5rem; font-size: 0.9rem; color: #7a9c5e;">
+                        Ao se cadastrar, você ganha 30 dias gratuitos do plano Premium!
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Rodapé -->
+    <footer>
+        <p>AgroSmart © 2024 • Protótipo de Login • <a href="index.html" style="color: #a3d977; text-decoration: none;">Voltar para Home</a></p>
+    </footer>
+
+    <script>
+        // Alternar entre Login e Cadastro
+        document.querySelectorAll('.toggle-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                // Remover classe active de todos
+                document.querySelectorAll('.toggle-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                
+                // Adicionar active no clicado
+                this.classList.add('active');
+                
+                // Esconder todos os formulários
+                document.querySelectorAll('.form-content').forEach(form => {
+                    form.classList.remove('active');
+                });
+                
+                // Mostrar formulário correspondente
+                const formId = this.getAttribute('data-form') + '-form';
+                document.getElementById(formId).classList.add('active');
+            });
+        });
+
+        // Simulação de Login (apenas protótipo)
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            // Simulação simples
+            if(email && password) {
+                alert('Login realizado com sucesso! (Simulação)\nRedirecionando para o dashboard...');
+                // Em um sistema real: window.location.href = 'dashboard.html';
+            }
+        });
+
+        // Simulação de Cadastro
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const password = document.getElementById('register-password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+            
+            if(password !== confirmPassword) {
+                alert('As senhas não coincidem!');
+                return;
+            }
+            
+            alert('Cadastro realizado com sucesso! (Simulação)\nBem-vindo ao AgroSmart!\n30 dias grátis ativados.');
+            // Alternar para login após cadastro
+            document.querySelector('[data-form="login"]').click();
+        });
+
+        // Simular login social
+        document.querySelectorAll('.social-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const platform = this.textContent.trim();
+                alert(`Login com ${platform} (Simulação)\nEm um sistema real, isso integraria com OAuth.`);
+            });
+        });
+    </script>
+</body>
+</html>
